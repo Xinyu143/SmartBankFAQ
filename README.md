@@ -6,20 +6,17 @@
 ```markdown
 
 SmartBankFAQ/
-|
 ├── data/
-│   └──  banking77_faq.json          # 存储构造好的问答数据
-|
-├── retriever/
-│   ├── __init__.py        
-│   └──  faiss_indexer.py            # 构建与使用向量索引模块
-|
+│   └── banking77.csv              # FAQ原始数据
+├── faq_index/
+│   └── faiss_index.bin            # 向量索引文件
+├── models/
+│   └── embedder.py                # 向量编码器
+│   └── generator.py               # Phi-2 推理模块
 ├── utils/
-│   ├── __init__.py     
-│   └──  data_utils.py               # 数据加载 & 格式转换工具
-|
-├── main.py                          # 测试入口
-|
-├── requirements.txt
-|
-└── README.md                        # Project documentation
+│   ├── build_faq.py               # 构建FAQ数据库
+│   └── retrieval.py               # 检索模块
+├── scripts/
+│   └── download_data.py           # 下载banking77并保存为CSV
+├── main.py                        # 主程序
+├── requirements.txt               # 所需依赖
