@@ -3,7 +3,7 @@ from models.generator import AnswerGenerator
 
 # 构造 Prompt 模板
 def build_prompt(user_query, matched_question):
-    return f"""Please answer the following questions from bank users in a concise and professional tone. Please answer the user question in its entirety, ending with "I hope you found this information helpful." Ending.
+    return f"""Please answer the following questions from bank users in a concise and professional tone. Please answer the user question in its entirety. Please end your answer with this sentence exactly: "I hope you found this information helpful."
 User's Question: {user_query}
 Related FAQ Questions: {matched_question}
 Answer:"""
@@ -29,11 +29,13 @@ if __name__ == "__main__":
         print("\n📜 Prompt:\n", prompt)
 
         # 用 phi-2 生成回答
-        response = generator.generate(prompt, max_new_tokens=300)
+
+        response = generator.generate(prompt, max_new_tokens=200)
 
 
-        if "回答：" in response:
-            answer = response.split("回答：")[-1].strip()
+        if "Answer:" in response:
+            answer = response.split("Answer:")[-1].split("I hope you found this information helpful.")[0].strip() + \
+             " I hope you found this information helpful."
         else:
             answer = response.strip()
 

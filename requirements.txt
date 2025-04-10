@@ -5,3 +5,5 @@ pandas
 datasets
 torch
 accelerate>=0.26.0
+pillow              # 图像读取与处理（用于打开图片）
+pytesseract         # OCR文字识别（Python wrapper）
