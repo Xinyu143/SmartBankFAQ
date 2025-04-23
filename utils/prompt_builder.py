@@ -16,5 +16,10 @@ def build_fewshot_prompt(user_query, faq_examples):
     for ex in faq_examples:
         prompt += f"Q: {ex['question']}\nA: {ex['answer']}\n\n"
 
-    prompt += f"Now, answer the following question as clearly and helpfully as possible:\nQ: {user_query}\nA:"
+    prompt += (
+        "Now, answer the following question as clearly and helpfully as possible. "
+        "Please do not provide use cases or additional examples. Just answer the user question concisely and professionally. "
+        "Please end your answer with this sentence exactly: \"I hope you found this information helpful.\"\n"
+    )
+    prompt += f"Q: {user_query}\nA:"
     return prompt

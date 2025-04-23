@@ -7,7 +7,7 @@ from models.generator import AnswerGenerator
 
 input_question = "How do I activate my credit card?"
 
-retriever = FAQRetriever(build_new=False)
+retriever = FAQRetriever(build_new=Ture)
 generator = AnswerGenerator()
 
 top_k_results = retriever.retrieve(input_question, top_k=5)
