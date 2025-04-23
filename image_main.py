@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     # 构造 few-shot Prompt
     prompt = build_fewshot_prompt(user_text, topk_results.to_dict(orient="records"))
-    print("\n📜 Prompt:\n", prompt)
+    # print("\n📜 Prompt:\n", prompt)
 
     # 生成回答
     response = generator.generate(prompt, max_new_tokens=300)

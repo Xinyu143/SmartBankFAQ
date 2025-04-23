@@ -1,30 +1,43 @@
 # main.py
 
+from utils.ocr import image_to_text
 from utils.retrieval import FAQRetriever
 from models.generator import AnswerGenerator
 from utils.prompt_builder import build_fewshot_prompt
 
 if __name__ == "__main__":
-    print("⏳ 正在初始化模型和索引...")
-    retriever = FAQRetriever()  # 自动判断是否需要重建索引
+    print("\n🤖 欢迎使用银行智能问答系统（支持图片 + 文字输入，输入 exit 可退出）")
+
+    retriever = FAQRetriever()
     generator = AnswerGenerator()
-    print("✅ 系统已准备就绪，请输入你的银行相关问题（输入 'exit' 退出）")
 
     while True:
-        user_input = input("\n🧾 你问：")
-        if user_input.lower() == "exit":
-            print("👋 已退出智能问答系统")
+        print("\n🖼️ 如有图片，请输入图像路径（或直接回车跳过）：")
+        image_path = input("图像路径：").strip()
+        if image_path.lower() == "exit":
+            break
+        image_text = image_to_text(image_path) if image_path else ""
+
+        print("💬 请输入文字问题（或直接回车跳过）：")
+        text_input = input("文字问题：").strip()
+        if text_input.lower() == "exit":
             break
 
-        # 检索 Top-5 最相似的问题
-        topk_results = retriever.retrieve(user_input, top_k=5)
+        # 合并图像 + 文字
+        user_query = (text_input + " " + image_text).strip()
 
-        # 构造 few-shot prompt
-        prompt = build_fewshot_prompt(user_input, topk_results.to_dict(orient="records"))
+        if not user_query:
+            print("⚠️ 未输入任何内容，请重新输入。")
+            continue
+
+        print(f"\n🔍 当前识别的问题：{user_query}")
+
+        topk_results = retriever.retrieve(user_query, top_k=5)
+        prompt = build_fewshot_prompt(user_query, topk_results.to_dict(orient="records"))
+
         # print("\n📜 Prompt:\n", prompt)
 
-        # 用 phi-2 生成回答
         response = generator.generate(prompt, max_new_tokens=300)
-
-        # 输出最终回答
         print("\n💬 模型回答：", response.strip())
+
+    print("👋 感谢使用，再见！")
