@@ -25,7 +25,7 @@ def evaluate_generated_answers(file_path):
 
     # 计算 ROUGE
     rouge_result = rouge.compute(predictions=predictions, references=references, use_stemmer=True)
-    rougeL = rouge_result['rougeL'].mid.fmeasure
+    rougeL = rouge_result['rougeL']
 
     # 计算 BERTScore
     bertscore_result = bertscore.compute(predictions=predictions, references=references, lang="en")
