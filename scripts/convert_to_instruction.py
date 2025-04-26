@@ -5,6 +5,8 @@ import json
 def convert_to_instruction_format(input_csv, output_jsonl):
     # 读取 CSV
     df = pd.read_csv(input_csv)
+    # 小范围选数试跑
+    df = df.sample(n=1000, random_state=42).reset_index(drop=True) 
 
     records = []
     for _, row in df.iterrows():
