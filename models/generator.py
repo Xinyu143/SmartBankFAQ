@@ -7,7 +7,7 @@ class AnswerGenerator:
     def __init__(self, model_name="microsoft/phi-2"):
         print("🔧 Loading phi-2 model and tokenizer...")
         # 加载与 phi-2 对应的分词器
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
         # 加载 phi-2 语言模型
         self.model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16, device_map="auto")
         self.model.eval()
