@@ -39,12 +39,16 @@ def main():
 
     def tokenize_function(example):
         prompt = f"### Instruction:\n{example['instruction']}\n\n### Response:\n{example['output']}"
-        return tokenizer(
+        tokenized = tokenizer(
           prompt, 
           truncation=True, # 如果超过最大长度就截断
           padding="max_length", # 不足就补齐到max_length
           max_length=512
         )
+        # 加上labels
+        tokenized["labels"] = tokenized["input_ids"].copy()
+        return tokenized
+
 
     tokenized_dataset = dataset.map(
       tokenize_function, 
