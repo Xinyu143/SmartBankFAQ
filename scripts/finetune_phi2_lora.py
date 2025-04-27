@@ -11,6 +11,7 @@ def main():
 
     # 1. 加载 tokenizer 和模型
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+    tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         load_in_8bit=True,   # 用8bit量化，节省显存
