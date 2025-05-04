@@ -2,7 +2,7 @@
 import pandas as pd
 import json
 
-def convert_to_instruction_format(input_csv, output_jsonl):
+def convert_to_jsonl_format(input_csv, output_jsonl):
     # 读取 CSV
     df = pd.read_csv(input_csv)
     # 小范围选数试跑
@@ -12,7 +12,8 @@ def convert_to_instruction_format(input_csv, output_jsonl):
     for _, row in df.iterrows():
         record = {
             "instruction": row["question"],
-            "output": row["answer"]
+            "output": row["answer"],
+            "label": row["intent"]
         }
         records.append(record)
 
@@ -26,5 +27,5 @@ def convert_to_instruction_format(input_csv, output_jsonl):
 
 if __name__ == "__main__":
     input_csv = "data/bitext_faq.csv"       # 你的原文件路径
-    output_jsonl = "data/train.jsonl"        # 转换后的训练数据保存位置
-    convert_to_instruction_format(input_csv, output_jsonl)
+    output_jsonl = "data/train_small.jsonl"        # 转换后的训练数据保存位置
+    convert_to_jsonl_format(input_csv, output_jsonl)
